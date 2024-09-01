@@ -8,7 +8,6 @@ export default function AppLayout() {
       <Header />
 
       <main>
-        <h1>Content</h1>
         {/* Outlet is a placeholder component that marks where the router should render the active route component. */}
         <Outlet />
       </main>
