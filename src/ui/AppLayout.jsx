@@ -10,6 +10,7 @@ export default function AppLayout() {
   return (
     <div className="layout">
       {isLoading && <Loader />}
+
       <Header />
 
       <main>
