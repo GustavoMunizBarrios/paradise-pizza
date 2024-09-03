@@ -3,8 +3,10 @@ import SearchOrder from '../features/order/SearchOrder';
 
 export default function Header() {
   return (
-    <header className="bg-yellow-500">
-      <Link to="/">Paradise Pizza</Link>
+    <header className="bg-yellow-500 uppercase">
+      <Link to="/" className="tracking-widest">
+        Paradise Pizza
+      </Link>
       <SearchOrder />
     </header>
   );
