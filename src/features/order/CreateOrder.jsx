@@ -97,6 +97,12 @@ export async function action({ request }) {
     cart: JSON.parse(data.cart),
     priority: data.priority === "on",
   };
+
+  const errors = {};
+  if (!isValidPhone(order.phone))
+    errors.phone = "Please give us your correct phone number";
+  if (Object.keys(errors).length > 0) return errors;
+
   // The new object that is coming back from createOrder (the API) contains the id of the order
   const newOrder = await createOrder(order);
   // The order id will be placed in the URL (with "redirect") which will fetch the new order from the server and then will be display it.
