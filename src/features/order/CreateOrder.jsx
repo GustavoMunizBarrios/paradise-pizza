@@ -1,6 +1,7 @@
 // import { useState } from "react";
 
-import { Form } from "react-router-dom";
+import { Form, redirect, useNavigation } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -32,11 +33,12 @@ const fakeCart = [
     totalPrice: 15,
   },
 ];
-console.log(fakeCart);
 
 function CreateOrder() {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   // const [withPriority, setWithPriority] = useState(false);
-  // const cart = fakeCart;
+  const cart = fakeCart;
 
   return (
     <div>
@@ -74,7 +76,10 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)}></input>
+          <button disabled={isSubmitting}>
+            {isSubmitting ? "Placing order..." : "Order now"}
+          </button>
         </div>
       </Form>
     </div>
@@ -82,11 +87,20 @@ function CreateOrder() {
 }
 
 export async function action({ request }) {
+  //Get all the data from the "Form"
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   console.log(data);
 
-  return null;
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart),
+    priority: data.priority === "on",
+  };
+  // The new object that is coming back from createOrder (the API) contains the id of the order
+  const newOrder = await createOrder(order);
+  // The order id will be placed in the URL (with "redirect") which will fetch the new order from the server and then will be display it.
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;
