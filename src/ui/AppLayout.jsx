@@ -13,10 +13,12 @@ export default function AppLayout() {
 
       <Header />
 
-      <main className="overflow-scroll">
-        {/* Outlet is a placeholder component that marks where the router should render the active route component. */}
-        <Outlet />
-      </main>
+      <div className="overflow-scroll">
+        <main className="mx-auto max-w-3xl">
+          {/* Outlet is a placeholder component that marks where the router should render the active route component. */}
+          <Outlet />
+        </main>
+      </div>
 
       <CartOverview></CartOverview>
     </div>
