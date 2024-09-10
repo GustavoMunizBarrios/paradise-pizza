@@ -3,7 +3,9 @@
 import { Form, redirect, useActionData, useNavigation } from 'react-router-dom';
 import { createOrder } from '../../services/apiRestaurant';
 import Button from '../../ui/Button';
+import EmptyCart from '../cart/EmptyCart';
 import { useSelector } from 'react-redux';
+import { getCart } from '../cart/cartSlice';
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -12,7 +14,7 @@ const isValidPhone = (str) =>
   );
 console.log(isValidPhone);
 
-const fakeCart = [
+/* const fakeCart = [
   {
     pizzaId: 12,
     name: 'Mediterranean',
@@ -34,7 +36,7 @@ const fakeCart = [
     unitPrice: 15,
     totalPrice: 15,
   },
-];
+]; */
 
 function CreateOrder() {
   const username = useSelector((state) => state.user.username);
@@ -44,7 +46,9 @@ function CreateOrder() {
 
   const formErrors = useActionData();
   // const [withPriority, setWithPriority] = useState(false);
-  const cart = fakeCart;
+  const cart = useSelector(getCart);
+
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <div className="px-4 py-6">
