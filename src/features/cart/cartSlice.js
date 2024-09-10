@@ -52,3 +52,22 @@ export const getTotalCartQuantity = (state) =>
 
 export const getTotalCartPrice = (state) =>
   state.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+export const getCurrentQuantityById = (id) => {
+  return (state) => {
+    const cartItems = state.cart.cart; // We obtain the state cart
+
+    // We look for the item that has the same pizzaId as the id passed as parameter
+    const foundItem = cartItems.find((item) => item.pizzaId === id);
+
+    // If the item is found, we obtain its quantity, otherwise we return 0.
+    if (foundItem && foundItem.quantity !== undefined) {
+      return foundItem.quantity;
+    } else {
+      return 0; // If the item is not found, we return 0 by default.
+    }
+  };
+};
+// SHORT VERSION OF getCurrentQuantitybyId
+/* export const getCurrentQuantityById = (id) => (state) =>
+  state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0; */
