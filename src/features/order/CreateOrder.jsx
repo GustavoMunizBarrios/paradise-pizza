@@ -5,7 +5,8 @@ import { createOrder } from '../../services/apiRestaurant';
 import Button from '../../ui/Button';
 import EmptyCart from '../cart/EmptyCart';
 import { useSelector } from 'react-redux';
-import { getCart } from '../cart/cartSlice';
+import { clearCart, getCart } from '../cart/cartSlice';
+import store from '../../store';
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -138,6 +139,9 @@ export async function action({ request }) {
 
   // The new object that is coming back from createOrder (the API) contains the id of the order
   const newOrder = await createOrder(order);
+
+  store.dispatch(clearCart);
+
   // The order id will be placed in the URL (with "redirect") which will fetch the new order from the server and then will be display it.
   return redirect(`/order/${newOrder.id}`);
 }
