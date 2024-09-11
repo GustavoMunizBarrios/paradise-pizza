@@ -148,7 +148,7 @@ export async function action({ request }) {
   // The new object that is coming back from createOrder (the API) contains the id of the order
   const newOrder = await createOrder(order);
 
-  store.dispatch(clearCart);
+  store.dispatch(clearCart());
 
   // The order id will be placed in the URL (with "redirect") which will fetch the new order from the server and then will be display it.
   return redirect(`/order/${newOrder.id}`);
